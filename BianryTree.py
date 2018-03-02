@@ -27,6 +27,49 @@ class Node:
         print(self.data)
         if self.rightchild:
             self.rightchild.print_tree()
+    def BFS_print1(self):
+       thislevel=[self]
+       while thislevel:
+            nextlevel=[]
+            for n in thislevel:
+                print(n.data)
+                if n.leftchild:nextlevel.append(n.leftchild)
+                if n.rightchild: nextlevel.append(n.rightchild)
+                #print()
+                thislevel=nextlevel
+    def BFS_print_goal(self,goal):
+        thislevel=[self]
+        while thislevel:
+            nextlevel=[]
+            for n in thislevel:
+                print(n.data)
+                if(goal==n.data):
+                    break;
+                if n.leftchild:nextlevel.append(n.leftchild)
+                if n. rightchild:nextlevel.append(n.rightchild)
+                thislevel=nextlevel
+    def BFS_print(self):
+        q=[]
+
+        temp,parent=self.lookup(self.data)
+        q.append(self.data)
+        while q:
+
+            if(temp.leftchild):
+                q.append(temp.leftchild.data)
+
+            if(temp.rightchild):
+                q.append(temp.rightchild.data)
+            print(q.pop(0))
+            #print(q)
+            #print('value of q[0]', q[0])
+            temp, parent = self.lookup(q[0])
+            while temp is None:
+                print(q.pop(0))
+                temp,parent=self.lookup(q[0])
+                #index+=1;
+
+
     def lookup(self,data,parent=None):
         if(self.data==data):
             return self,parent
@@ -94,24 +137,3 @@ class Node:
             else:
                 parent.right = successor.right
     '''
-root=Node(7)
-root.insert(9)
-root.insert(2)
-root.insert(5)
-root.insert(8)
-root.insert(1)
-root.insert(4)
-root.insert(15)
-root.insert(12)
-root.insert(16)
-
-print(root.data)
-print(root.leftchild.data)
-print(root.rightchild.data)
-
-#root.delete(5)
-
-node,parent=root.lookup(4)
-print(parent.data,'\n\n')
-
-root.print_tree()
