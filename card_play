@@ -1,0 +1,78 @@
+from random import shuffle
+class cards:
+    card=[]
+    def __init__(self):                         # To allocate desired card
+        for i in range(0,11):
+            for j in range(0,i):
+                self.card.append(i)
+
+    def printcard(self):
+        print(self.card)
+
+    def shuffle_card(self):                     # to randomise the card
+        shuffle(self.card)
+
+    def draw_card(self):                        #to drawing a card
+        return self.card.pop()
+
+class deck:
+    def __init__(self):
+        self.playerA=[]
+        self.playerB=[]
+
+    def card_addA(self,val):
+        self.playerA.append(val)
+
+    def card_addB(self,val):
+        self.playerB.append(val)
+
+    def printcardA(self):
+        print(self.playerA)
+
+    def printcardB(self):
+        print(self.playerB)
+
+    def lose_A(self):
+        if (len(self.playerA)!=len(set(self.playerA))):                 # to check playerA lose
+            #print("B Win")
+            return True
+
+    def lose_B(self):
+        if (len(self.playerB)!=len(set(self.playerB))):                 #to check playerB lose
+           # print("A Win")
+            return True
+
+no_of_game=10000                          #no of game want to play
+winA=0
+winB=0
+
+for i in range(0,no_of_game):
+    card=cards()
+    game=deck()
+    #card.printcard()                                           # to print card
+    card.shuffle_card()                                     #to shuffle card
+    #card.printcard()                                           #to print card
+    tempcard1=card.draw_card()
+    tempcard2=card.draw_card()                                     #this 2 card for intial condition
+
+    if(tempcard1>tempcard2):
+        (tempcard1,tempcard2)=(tempcard2,tempcard1)                     #lower card goes to player A
+
+    game.card_addA(tempcard1)                                              #add a card to playerA
+    game.card_addB(tempcard2)                                               #add a card to player B
+
+    while not(game.lose_A() or game.lose_B()):
+        game.card_addA(card.draw_card())                                  #turn by turn card withdrawing A and B
+        game.card_addB(card.draw_card())
+
+    #game.printcardA()                                         # to print card of player A
+    #game.printcardB()                                          # to print card of player B
+    if(game.lose_B()):
+        winA+=1                                                 #to add in who win game
+    else:
+        winB+=1
+
+    avgA=winA/no_of_game
+    avgB=winB/no_of_game
+print("winning {0} games by Player A and {1} games by Player B in out of {2} Games.".format(winA,winB,no_of_game))
+print("Fraction of Wining player A is {0} and Player B is {1} respect total game".format(avgA,avgB))
